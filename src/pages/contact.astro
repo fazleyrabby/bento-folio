@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import BentoCard from '../components/BentoCard.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const faq = [
+  { q: 'What kind of work do you take on?', a: 'Backend engineering, CMS/SaaS architecture, and infra hardening for product teams of 5–50.' },
+  { q: 'Do you do hourly or fixed?', a: 'Fixed-scope sprints (2–6 weeks) by default. Retainer for ongoing partnerships.' },
+  { q: 'What is your typical turnaround?', a: 'Reply within 24h on weekdays. Engagements start within 1–3 weeks based on availability.' },
+  { q: 'Where are you based?', a: `${site.location} — comfortable working across UTC−5 → UTC+9.` },
+];
+---
+<BaseLayout title="Contact — Fazley Rabby" description="Get in touch about backend, infra, or CMS work.">
+  <div class="px-4 md:px-6 pt-10 pb-28 max-w-[1480px] mx-auto">
+    <PageHeader eyebrow="Get in touch" title="Let's talk." description="Tell me about the system you're building. I read every message." />
+
+    <BentoGrid>
+      <BentoCard span="col-span-12 lg:col-span-7" label="Send a message">
+        <form id="contact-form" class="grid sm:grid-cols-2 gap-3 mt-1">
+          <label class="sm:col-span-1 block">
+            <span class="text-xs text-dim uppercase tracking-wider">Name</span>
+            <input required name="name" class="mt-1 w-full h-11 px-3.5 rounded-xl bg-surface-2 border border-soft outline-none focus:border-[color:var(--color-accent)] text-sm" />
+          </label>
+          <label class="sm:col-span-1 block">
+            <span class="text-xs text-dim uppercase tracking-wider">Email</span>
+            <input required type="email" name="email" class="mt-1 w-full h-11 px-3.5 rounded-xl bg-surface-2 border border-soft outline-none focus:border-[color:var(--color-accent)] text-sm" />
+          </label>
+          <label class="sm:col-span-2 block">
+            <span class="text-xs text-dim uppercase tracking-wider">Project type</span>
+            <select name="type" class="mt-1 w-full h-11 px-3.5 rounded-xl bg-surface-2 border border-soft outline-none focus:border-[color:var(--color-accent)] text-sm">
+              <option>Backend engineering</option>
+              <option>CMS / SaaS build</option>
+              <option>Infra / DevOps</option>
+              <option>Consulting / audit</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="sm:col-span-2 block">
+            <span class="text-xs text-dim uppercase tracking-wider">Tell me about it</span>
+            <textarea required name="message" rows="5" class="mt-1 w-full px-3.5 py-3 rounded-xl bg-surface-2 border border-soft outline-none focus:border-[color:var(--color-accent)] text-sm resize-y"></textarea>
+          </label>
+          <div class="sm:col-span-2 flex items-center justify-between gap-3">
+            <span id="form-status" class="text-xs text-dim"></span>
+            <button class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[color:var(--color-accent)] text-white text-sm font-medium hover:opacity-90"><Icon name="send" size={14} /> Send message</button>
+          </div>
+        </form>
+      </BentoCard>
+
+      <BentoCard span="col-span-12 lg:col-span-5" variant="mesh">
+        <span class="pill"><span class="dot"></span> {site.available ? 'Available for work' : 'Booked'}</span>
+        <h2 class="mt-4 font-display text-2xl tracking-tight">Direct lines.</h2>
+        <p class="mt-1 text-muted">Email is fastest. DMs open on socials.</p>
+        <ul class="mt-5 space-y-2.5 text-sm">
+          <li class="flex items-center gap-2"><Icon name="mail" size={14} class="accent" /><a href={`mailto:${site.email}`} class="hover:accent">{site.email}</a></li>
+          <li class="flex items-center gap-2"><Icon name="map" size={14} class="accent" /><span>{site.location}</span></li>
+          <li class="flex items-center gap-2"><Icon name="github" size={14} class="accent" /><a href={site.social.github} class="hover:accent">@{site.github.user}</a></li>
+          <li class="flex items-center gap-2"><Icon name="linkedin" size={14} class="accent" /><a href={site.social.linkedin} class="hover:accent">LinkedIn</a></li>
+        </ul>
+      </BentoCard>
+
+      <BentoCard span="col-span-12" label="FAQ">
+        <div class="grid md:grid-cols-2 gap-x-8 gap-y-5">
+          {faq.map(f => (
+            <div>
+              <div class="font-medium">{f.q}</div>
+              <p class="mt-1 text-sm text-muted">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </BentoCard>
+    </BentoGrid>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const status = document.getElementById('form-status');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!status) return;
+      status.textContent = 'Sending…';
+      setTimeout(() => {
+        status.textContent = 'Message sent. I’ll reply within 24h.';
+        form.reset();
+      }, 600);
+    });
+  </script>
+</BaseLayout>

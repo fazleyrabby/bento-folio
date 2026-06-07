@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+---
+<button id="theme-toggle" aria-label="Toggle theme" class="grid place-items-center w-9 h-9 rounded-full border border-soft bg-surface hover:border-[color:var(--color-accent)] transition-colors">
+  <Icon name="sun" class="hidden light-only" />
+  <Icon name="moon" class="dark-only" />
+</button>
+
+<style>
+  :global(html.light) .dark-only { display: none; }
+  :global(html.light) .light-only { display: inline-block; }
+  :global(html:not(.light)) .light-only { display: none; }
+</style>
+
+<script is:inline>
+  (() => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light') document.documentElement.classList.add('light');
+    const btn = document.getElementById('theme-toggle');
+    btn?.addEventListener('click', () => {
+      const isLight = document.documentElement.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  })();
+</script>

@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import NavigationDock from '../components/NavigationDock.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noDock?: boolean;
+}
+const {
+  title = `${site.name} — ${site.role}`,
+  description = site.shortBio,
+  image = '/og.png',
+  noDock = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="dark light" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <script is:inline>
+      (() => {
+        try {
+          const t = localStorage.getItem('theme');
+          if (t === 'light') document.documentElement.classList.add('light');
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="min-h-svh w-full">
+      <slot />
+    </main>
+    {!noDock && <NavigationDock />}
+
+    <script>
+      // Animated counters
+      const counters = document.querySelectorAll<HTMLElement>('[data-counter]');
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const el = e.target as HTMLElement;
+          const end = Number(el.dataset.counter || '0');
+          const dur = 1200;
+          const start = performance.now();
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(end * eased).toString();
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        }
+      }, { threshold: 0.3 });
+      counters.forEach(c => io.observe(c));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+---
+import BentoCard from './BentoCard.astro';
+import { site } from '../data/site';
+---
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" label="Testimonial">
+  <blockquote class="text-sm leading-relaxed text-fg">“{site.testimonial.quote}”</blockquote>
+  <footer class="mt-3 text-xs text-dim">
+    <span class="text-muted">{site.testimonial.author}</span> · {site.testimonial.role}
+  </footer>
+</BentoCard>

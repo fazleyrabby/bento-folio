@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+interface Project {
+  slug: string;
+  title: string;
+  description: string;
+  cover?: string;
+  tech: string[];
+  github?: string;
+  url?: string;
+  featured?: boolean;
+  category?: string;
+}
+interface Props { project: Project; span?: string; }
+const { project, span = 'col-span-12 md:col-span-6 lg:col-span-4' } = Astro.props;
+---
+<article class:list={['card card-glow group flex flex-col', span]}>
+  <span class="card-glow" aria-hidden="true"></span>
+  {project.cover && (
+    <div class="relative aspect-[16/9] overflow-hidden border-b border-soft">
+      <img src={project.cover} alt={project.title} loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      {project.category && <span class="pill absolute top-2.5 left-2.5 backdrop-blur-md !bg-[color:var(--color-bg-elev)]/70">{project.category}</span>}
+    </div>
+  )}
+  <div class="p-4 flex-1 flex flex-col">
+    <h3 class="font-display text-lg font-medium">{project.title}</h3>
+    <p class="mt-1 text-sm text-muted line-clamp-2">{project.description}</p>
+    <div class="mt-3 flex flex-wrap gap-1.5">
+      {project.tech.slice(0, 5).map(t => <span class="pill">{t}</span>)}
+    </div>
+    <div class="mt-auto pt-4 flex items-center justify-between text-sm">
+      <a href={`/works#${project.slug}`} class="inline-flex items-center gap-1 accent hover:opacity-80">
+        Details <Icon name="arrow" size={14} />
+      </a>
+      <div class="flex items-center gap-2 text-dim">
+        {project.github && <a href={project.github} aria-label="GitHub" class="hover:text-fg"><Icon name="github" size={16} /></a>}
+        {project.url && <a href={project.url} aria-label="Live" class="hover:text-fg"><Icon name="external" size={16} /></a>}
+      </div>
+    </div>
+  </div>
+</article>

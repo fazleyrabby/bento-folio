@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import BentoCard from '../components/BentoCard.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const r = site.resume;
+---
+<BaseLayout title="Resume — Fazley Rabby" description={r.summary}>
+  <div class="px-4 md:px-6 pt-10 pb-28 max-w-[1480px] mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+      <PageHeader eyebrow="Resume" title="Career, condensed." description={r.summary} />
+      <div class="flex gap-2">
+        <a href="/resume.pdf" download class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[color:var(--color-accent)] text-white text-sm font-medium hover:opacity-90"><Icon name="download" size={14} /> Download PDF</a>
+        <a href={`mailto:${site.email}`} class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-surface-2 border border-soft text-sm hover:border-[color:var(--color-accent)]"><Icon name="mail" size={14} /> Contact</a>
+      </div>
+    </div>
+
+    <BentoGrid>
+      <BentoCard span="col-span-12 lg:col-span-8" label="Experience">
+        <ol class="relative space-y-6 pl-6 before:absolute before:left-2 before:top-1 before:bottom-1 before:w-px before:bg-[color:var(--color-border-soft)]">
+          {r.experience.map(e => (
+            <li class="relative">
+              <span class="absolute -left-[18px] top-1.5 w-2.5 h-2.5 rounded-full bg-[color:var(--color-accent)] ring-4 ring-[color:var(--color-surface)]"></span>
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <div>
+                  <div class="font-display text-lg">{e.role} <span class="text-muted">· {e.company}</span></div>
+                </div>
+                <div class="text-xs text-dim uppercase tracking-wider">{e.period}</div>
+              </div>
+              <ul class="mt-2 space-y-1 text-sm text-muted">
+                {e.bullets.map(b => <li class="flex gap-2"><span class="accent mt-1.5 w-1 h-1 rounded-full bg-[color:var(--color-accent)]"></span>{b}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      </BentoCard>
+
+      <BentoCard span="col-span-12 lg:col-span-4" label="Skills">
+        <div class="space-y-4">
+          {Object.entries(r.skills).map(([group, items]) => (
+            <div>
+              <div class="text-xs uppercase tracking-wider text-dim mb-1.5">{group}</div>
+              <div class="flex flex-wrap gap-1.5">
+                {items.map(i => <span class="pill">{i}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </BentoCard>
+
+      <BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" label="Education">
+        <ul class="space-y-3">
+          {r.education.map(e => (
+            <li>
+              <div class="font-medium">{e.degree}</div>
+              <div class="text-sm text-muted">{e.school}</div>
+              <div class="text-xs text-dim mt-0.5">{e.period}</div>
+            </li>
+          ))}
+        </ul>
+      </BentoCard>
+
+      <BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" label="Certifications">
+        <ul class="space-y-2.5">
+          {r.certifications.map(c => (
+            <li class="flex items-start gap-2 text-sm"><Icon name="check" size={14} class="accent mt-0.5" /><span>{c.name} <span class="text-dim">· {c.year}</span></span></li>
+          ))}
+        </ul>
+      </BentoCard>
+
+      <BentoCard span="col-span-12 lg:col-span-4" label="Achievements">
+        <ul class="space-y-2.5">
+          {r.achievements.map(a => (
+            <li class="flex items-start gap-2 text-sm"><Icon name="star" size={14} class="accent mt-0.5" />{a}</li>
+          ))}
+        </ul>
+      </BentoCard>
+    </BentoGrid>
+  </div>
+
+</BaseLayout>

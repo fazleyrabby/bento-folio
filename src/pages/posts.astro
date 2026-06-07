@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date));
+---
+<BaseLayout title="Posts — BentoFolio" description="Essays on engineering, infra, and craft.">
+  <div class="px-3 md:px-4 pt-10 pb-24 max-w-[1480px] mx-auto">
+    <PageHeader eyebrow="Writing" title="Notes from the codebase." description="Long-form essays on engineering, infra, and the craft of building durable systems." />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {posts.map(p => (
+        <BlogCard
+          post={{ slug: p.id, title: p.data.title, description: p.data.description, cover: p.data.cover, date: p.data.date, readingTime: p.data.readingTime, category: p.data.category }}
+          span=""
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

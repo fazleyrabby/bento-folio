@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { nav } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
+---
+<nav aria-label="Primary" class="fixed left-1/2 -translate-x-1/2 bottom-4 z-50">
+  <div class="flex items-center gap-1 p-1.5 rounded-full bg-[color:var(--color-bg-elev)]/85 backdrop-blur-xl border border-soft shadow-[0_8px_32px_-12px_rgba(0,0,0,0.6)]">
+    {nav.map(item => (
+      <a
+        href={item.href}
+        aria-label={item.label}
+        aria-current={isActive(item.href) ? 'page' : undefined}
+        class:list={[
+          'group relative grid place-items-center w-10 h-10 rounded-full transition-all',
+          isActive(item.href) ? 'bg-[color:var(--color-accent)]/15 text-[color:var(--color-accent)]' : 'text-muted hover:text-fg hover:bg-surface-2'
+        ]}
+      >
+        <Icon name={item.icon} size={18} />
+        <span class="pointer-events-none absolute -top-9 px-2 py-1 rounded-md text-[11px] bg-[color:var(--color-bg-elev)] border border-soft opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{item.label}</span>
+      </a>
+    ))}
+    <div class="w-px h-6 bg-[color:var(--color-border-soft)] mx-1"></div>
+    <ThemeToggle />
+  </div>
+</nav>

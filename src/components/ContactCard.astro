@@ -1,0 +1,27 @@
+---
+import BentoCard from './BentoCard.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<BentoCard span="col-span-12" variant="mesh" padded={false}>
+  <div class="p-5 md:p-6 h-full flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+    <div class="min-w-0">
+      <span class="pill"><span class="dot"></span> Available for work</span>
+      <h2 class="mt-2 font-display text-xl md:text-2xl font-medium tracking-tight leading-tight">
+        Let's build something <span class="accent">together.</span>
+      </h2>
+      <p class="mt-1 text-sm text-muted max-w-md">Selectively taking on new engagements this quarter.</p>
+    </div>
+    <div class="flex flex-wrap gap-1.5 shrink-0">
+      <a href={`mailto:${site.email}`} class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-[color:var(--color-accent)] text-white text-sm font-medium hover:opacity-90 transition-opacity">
+        <Icon name="mail" size={14} /> Email
+      </a>
+      <a href={site.social.linkedin} class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-2 border border-soft text-sm hover:border-[color:var(--color-accent)] transition-colors">
+        <Icon name="linkedin" size={14} /> LinkedIn
+      </a>
+      <a href={site.social.github} class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-2 border border-soft text-sm hover:border-[color:var(--color-accent)] transition-colors">
+        <Icon name="github" size={14} /> GitHub
+      </a>
+    </div>
+  </div>
+</BentoCard>

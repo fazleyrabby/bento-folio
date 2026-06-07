@@ -1,0 +1,25 @@
+---
+import BentoCard from './BentoCard.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+const rows = [
+  { icon: 'bolt', label: 'Working', value: site.now.working },
+  { icon: 'book', label: 'Reading', value: site.now.reading },
+  { icon: 'music', label: 'Listening', value: site.now.listening },
+];
+---
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" label="Now">
+  <ul class="space-y-3 mt-1">
+    {rows.map(r => (
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 grid place-items-center w-7 h-7 rounded-lg bg-surface-2 text-[color:var(--color-accent)]">
+          <Icon name={r.icon} size={14} />
+        </span>
+        <div class="min-w-0">
+          <div class="text-[11px] uppercase tracking-wider text-dim">{r.label}</div>
+          <div class="text-sm truncate">{r.value}</div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</BentoCard>

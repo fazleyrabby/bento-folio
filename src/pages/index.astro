@@ -1,17 +1,42 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+import FocusCard from '../components/FocusCard.astro';
+import StatsCard from '../components/StatsCard.astro';
+import TechStackCard from '../components/TechStackCard.astro';
+import StatusCard from '../components/StatusCard.astro';
+import GithubCard from '../components/GithubCard.astro';
+import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import ContactCard from '../components/ContactCard.astro';
+import UsesPreviewCard from '../components/UsesPreviewCard.astro';
+import LatestPostsCard from '../components/LatestPostsCard.astro';
+import { getCollection } from 'astro:content';
 
+const works = await getCollection('works');
+const featured = works.find(w => w.data.featured) ?? works[0];
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <div class="px-3 md:px-4 pt-4 pb-24 max-w-[1480px] mx-auto">
+    <BentoGrid>
+      <ProfileCard />
+      <FeaturedProjectCard
+        title={featured.data.title}
+        description={featured.data.description}
+        tech={featured.data.tech}
+        cover={featured.data.cover}
+        href="/works"
+      />
+      <FocusCard />
+      <StatsCard />
+      <TechStackCard />
+      <StatusCard />
+      <GithubCard />
+      <UsesPreviewCard />
+      <LatestPostsCard />
+      <TestimonialCard />
+      <ContactCard />
+    </BentoGrid>
+  </div>
+</BaseLayout>

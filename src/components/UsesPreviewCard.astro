@@ -1,0 +1,16 @@
+---
+import BentoCard from './BentoCard.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+const items = [...site.uses.hardware.slice(0, 2), ...site.uses.dev.slice(0, 2), site.uses.apps[0]].filter(Boolean).map(i => i!.name);
+---
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" href="/uses" label="Uses">
+  <ul class="space-y-1.5">
+    {items.map(i => (
+      <li class="flex items-center gap-2 text-sm">
+        <Icon name="check" size={13} class="accent" /> <span class="text-muted">{i}</span>
+      </li>
+    ))}
+  </ul>
+  <div class="mt-3 inline-flex items-center gap-1 text-xs accent">See full setup <Icon name="arrow" size={12} /></div>
+</BentoCard>

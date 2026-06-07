@@ -1,0 +1,45 @@
+---
+interface Props {
+  span?: string;
+  rowSpan?: string;
+  href?: string;
+  class?: string;
+  padded?: boolean;
+  variant?: 'default' | 'mesh' | 'accent';
+  label?: string;
+  title?: string;
+}
+const {
+  span = 'col-span-12 md:col-span-6 lg:col-span-4',
+  rowSpan = '',
+  href,
+  class: cls = '',
+  padded = true,
+  variant = 'default',
+  label,
+  title,
+} = Astro.props;
+const Tag = href ? 'a' : 'div';
+const variantClass = variant === 'mesh' ? 'grad-mesh' : '';
+---
+<Tag
+  href={href}
+  class:list={[
+    'card card-glow',
+    span,
+    rowSpan,
+    variantClass,
+    padded ? 'p-4' : '',
+    href ? 'block' : '',
+    cls,
+  ]}
+>
+  <span class="card-glow" aria-hidden="true"></span>
+  {(label || title) && (
+    <header class="flex items-center justify-between mb-2.5">
+      {label && <span class="text-[11px] uppercase tracking-[0.12em] text-dim">{label}</span>}
+      {title && <span class="text-sm text-muted">{title}</span>}
+    </header>
+  )}
+  <slot />
+</Tag>

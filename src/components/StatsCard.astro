@@ -1,0 +1,21 @@
+---
+import BentoCard from './BentoCard.astro';
+import { site } from '../data/site';
+const items = [
+  { label: 'Years', value: site.stats.years },
+  { label: 'Projects', value: site.stats.projects },
+  { label: 'Tech', value: site.stats.technologies },
+];
+---
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" label="Experience">
+  <div class="grid grid-cols-3 gap-2 h-full items-center text-center">
+    {items.map(i => (
+      <div class="flex flex-col items-center">
+        <div class="font-display font-bold tracking-tight leading-none text-3xl md:text-4xl">
+          <span data-counter={i.value} class="text-fg">0</span><span class="accent">+</span>
+        </div>
+        <div class="mt-2 text-[10px] font-semibold text-dim uppercase tracking-[0.14em]">{i.label}</div>
+      </div>
+    ))}
+  </div>
+</BentoCard>

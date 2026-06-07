@@ -1,0 +1,45 @@
+---
+import BentoCard from './BentoCard.astro';
+import { site } from '../data/site';
+const half = Math.ceil(site.tech.length / 2);
+const rowA = site.tech.slice(0, half);
+const rowB = site.tech.slice(half);
+const dup = (arr: string[]) => [...arr, ...arr, ...arr];
+---
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" padded={false}>
+  <div class="px-4 pt-4 pb-1 text-[11px] uppercase tracking-[0.12em] text-dim font-semibold">Tech Stack</div>
+  <div class="relative overflow-hidden py-3 pb-4 marquee-mask">
+    <div class="marquee flex gap-2 whitespace-nowrap will-change-transform">
+      {dup(rowA).map(t => (
+        <span class="pill !py-2 !px-4 !text-sm !font-semibold !text-fg shrink-0 hover:!text-[color:var(--color-accent)] hover:!border-[color:var(--color-accent)]/40 transition-colors">{t}</span>
+      ))}
+    </div>
+    <div class="marquee marquee-reverse mt-2 flex gap-2 whitespace-nowrap will-change-transform">
+      {dup(rowB).map(t => (
+        <span class="pill !py-2 !px-4 !text-sm !font-semibold !text-fg shrink-0 hover:!text-[color:var(--color-accent)] hover:!border-[color:var(--color-accent)]/40 transition-colors">{t}</span>
+      ))}
+    </div>
+  </div>
+</BentoCard>
+
+<style>
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee {
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-reverse {
+    animation-direction: reverse;
+    animation-duration: 28s;
+  }
+  .card:hover .marquee { animation-play-state: paused; }
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-33.333%, 0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; }
+  }
+</style>
