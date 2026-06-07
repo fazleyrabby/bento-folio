@@ -9,10 +9,10 @@ export const site = {
   email: "hello@alexcarter.dev",
   avatar: "/avatar.svg",
   social: {
-    github: "https://github.com/alexcarter",
-    linkedin: "https://linkedin.com/in/alexcarter",
-    x: "https://x.com/alexcarter",
-    rss: "/rss.xml",
+    github: "#",
+    linkedin: "#",
+    x: "#",
+    rss: "#",
   },
   focus: {
     building: ["Nimbus Cloud"],
