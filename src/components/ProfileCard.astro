@@ -2,6 +2,7 @@
 import BentoCard from './BentoCard.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { url } from '../lib/url';
 const initials = site.name.split(' ').map(p => p[0]).slice(0, 2).join('');
 ---
 <BentoCard span="col-span-12 lg:col-span-5" variant="mesh" padded={false}>
@@ -27,7 +28,7 @@ const initials = site.name.split(' ').map(p => p[0]).slice(0, 2).join('');
       <a href={site.social.linkedin} aria-label="LinkedIn" class="grid place-items-center w-8 h-8 rounded-lg bg-surface-2 border border-soft hover:border-[color:var(--color-accent)] hover:accent transition-colors"><Icon name="linkedin" size={14} /></a>
       <a href={site.social.x} aria-label="X" class="grid place-items-center w-8 h-8 rounded-lg bg-surface-2 border border-soft hover:border-[color:var(--color-accent)] hover:accent transition-colors"><Icon name="x" size={14} /></a>
       <a href={`mailto:${site.email}`} aria-label="Email" class="grid place-items-center w-8 h-8 rounded-lg bg-surface-2 border border-soft hover:border-[color:var(--color-accent)] hover:accent transition-colors"><Icon name="mail" size={14} /></a>
-      <a href="/resume" class="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[color:var(--color-accent)] text-white text-xs font-medium hover:opacity-90 transition-opacity">Resume <Icon name="arrow" size={12} /></a>
+      <a href={url('/resume')} class="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[color:var(--color-accent)] text-white text-xs font-medium hover:opacity-90 transition-opacity">Resume <Icon name="arrow" size={12} /></a>
     </div>
   </div>
 </BentoCard>

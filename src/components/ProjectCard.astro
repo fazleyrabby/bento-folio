@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { url } from '../lib/url';
 interface Project {
   slug: string;
   title: string;
@@ -29,7 +30,7 @@ const { project, span = 'col-span-12 md:col-span-6 lg:col-span-4' } = Astro.prop
       {project.tech.slice(0, 5).map(t => <span class="pill">{t}</span>)}
     </div>
     <div class="mt-auto pt-4 flex items-center justify-between text-sm">
-      <a href={`/works#${project.slug}`} class="inline-flex items-center gap-1 accent hover:opacity-80">
+      <a href={url(`/works#${project.slug}`)} class="inline-flex items-center gap-1 accent hover:opacity-80">
         Details <Icon name="arrow" size={14} />
       </a>
       <div class="flex items-center gap-2 text-dim">

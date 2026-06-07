@@ -217,8 +217,43 @@ Requires **Node ≥ 22.12**.
 Works on any static host. Build outputs to `dist/`.
 
 - **Vercel / Netlify / Cloudflare Pages** — set framework preset to *Astro*, build command `npm run build`, output dir `dist`
-- **GitHub Pages** — set the `site` in `astro.config.mjs` and use a Pages workflow
+- **GitHub Pages** — workflow included (see below)
 - **Self-hosted** — serve `dist/` from any static file server (nginx, Caddy, Apache)
+
+---
+
+### GitHub Pages
+
+A ready-to-run workflow lives at `.github/workflows/deploy.yml`. It:
+
+1. Builds on every push to `main` (and on manual dispatch)
+2. Auto-derives `BASE_PATH=/<repo-name>` and `SITE=https://<owner>.github.io` from the repo
+3. Uploads `dist/` and deploys to the `github-pages` environment
+
+**One-time setup:**
+
+1. Push the repo to GitHub
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**
+3. Push to `main` — the workflow runs and your site lands at `https://<owner>.github.io/<repo>/`
+
+**Deploying as a user/org site** (`<owner>.github.io`) **or a custom domain**:
+
+Add repository variables in **Settings → Secrets and variables → Actions → Variables**:
+
+| Variable    | Value                              |
+| ----------- | ---------------------------------- |
+| `BASE_PATH` | `/`                                |
+| `SITE`      | `https://<owner>.github.io` or your custom domain |
+
+The workflow reads `vars.BASE_PATH` / `vars.SITE` and overrides the repo-derived defaults.
+
+**Local builds for production:**
+
+```sh
+BASE_PATH=/bento-folio SITE=https://owner.github.io npm run build
+```
+
+Internal hrefs are wrapped via the `url()` helper in `src/lib/url.ts`, which respects `import.meta.env.BASE_URL`. If you add new internal links, wrap them: `href={url('/works')}`.
 
 ---
 

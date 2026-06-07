@@ -2,9 +2,10 @@
 import BentoCard from './BentoCard.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { url } from '../lib/url';
 const items = [...site.uses.hardware.slice(0, 2), ...site.uses.dev.slice(0, 2), site.uses.apps[0]].filter(Boolean).map(i => i!.name);
 ---
-<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" href="/uses" label="Uses">
+<BentoCard span="col-span-12 md:col-span-6 lg:col-span-4" href={url('/uses')} label="Uses">
   <ul class="space-y-1.5">
     {items.map(i => (
       <li class="flex items-center gap-2 text-sm">

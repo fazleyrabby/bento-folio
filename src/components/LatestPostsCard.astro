@@ -2,6 +2,7 @@
 import BentoCard from './BentoCard.astro';
 import Icon from './Icon.astro';
 import { getCollection } from 'astro:content';
+import { url } from '../lib/url';
 const posts = (await getCollection('posts'))
   .sort((a, b) => +new Date(b.data.date) - +new Date(a.data.date))
   .slice(0, 3);
@@ -9,12 +10,12 @@ const posts = (await getCollection('posts'))
 <BentoCard span="col-span-12 lg:col-span-8" padded={false}>
   <div class="flex items-center justify-between px-4 pt-4 pb-2">
     <span class="text-[11px] uppercase tracking-[0.12em] text-dim font-semibold">Latest Posts</span>
-    <a href="/posts" class="inline-flex items-center gap-1 text-xs accent hover:opacity-80">View all <Icon name="arrow" size={12} /></a>
+    <a href={url('/posts')} class="inline-flex items-center gap-1 text-xs accent hover:opacity-80">View all <Icon name="arrow" size={12} /></a>
   </div>
   <ul class="px-2 pb-2">
     {posts.map(p => (
       <li>
-        <a href={`/post/${p.id}`} class="group flex items-start justify-between gap-3 px-2 py-2.5 rounded-xl hover:bg-surface-2 transition-colors">
+        <a href={url(`/post/${p.id}`)} class="group flex items-start justify-between gap-3 px-2 py-2.5 rounded-xl hover:bg-surface-2 transition-colors">
           <div class="min-w-0">
             <div class="text-sm font-medium truncate group-hover:accent transition-colors">{p.data.title}</div>
             <div class="text-[11px] text-dim mt-0.5">{new Date(p.data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · {p.data.readingTime ?? '4 min'}</div>
